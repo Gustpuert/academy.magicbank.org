@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>MagicBank Tutor Gateway</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, sans-serif;
+      background: #070C2A;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    .box {
+      max-width: 420px;
+      padding: 32px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.05);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+
+    h1 {
+      font-size: 22px;
+      margin-bottom: 12px;
+      color: #D6B15A;
+    }
+
+    p {
+      font-size: 15px;
+      color: #CFCFD6;
+    }
+
+    .error {
+      color: #ff6b6b;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="box">
+    <h1>Validando acceso</h1>
+    <p id="status">Conectando con MagicBank…</p>
+  </div>
+
+<script>
+(async () => {
+  const statusEl = document.getElementById("status");
+  const params = new URLSearchParams(window.location.search);
+  const token = params.get("token");
+
+  if (!token) {
+    statusEl.innerHTML = "<span class='error'>Acceso inválido</span>";
+    return;
+  }
+
+  try {
+    const res = await fetch("https://magic-bank-backend-production-713e.up.railway.app/api/auth/verify", {
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    });
+
+    if (!res.ok) throw new Error("Token inválido");
+
+    const data = await res.json();
+    const course = data.user.course;
+
+    const routes = {
+      "italiano": "https://chatgpt.com/g/g-694ff655ce908191871b8656228b5971-profesor-de-italiano",
+      "aleman": "https://chatgpt.com/g/g-694ff6db1224819184d471e770ab7bf4-profesor-de-aleman",
+      "chino": "https://chatgpt.com/g/g-694fec2d35c88191833aa2af7d92fce0-maestro-de-chino-mandarin",
+      "portugues": "https://chatgpt.com/g/g-694ff45ee8a88191b72cd536885b0876-profesor-de-portugues",
+      "ingles": "https://chatgpt.com/g/g-69269540618c8191ad2fcc7a5a86b622-tutor-de-ingles-magicbank",
+      "frances": "https://chatgpt.com/g/g-692b740a32a08191b53be9f92bede4c3-scarlet-french-magic-tutor",
+      "cocina": "https://chatgpt.com/g/g-6925b1e4cff88191a3e46165e9ab7824-elchef",
+      "nutricion": "https://chatgpt.com/g/g-694ffee00bb88191b8a708c68b13a0e1-nutricion-inteligente-tutor-pro",
+      "trading": "https://chatgpt.com/g/g-6936550a35bc81919aa54bae25f5e133-trading-ciclico-tutor-magic-pro",
+      "pensiones": "https://chatgpt.com/g/g-6927e4527ac881919cf2697da6dd674b-tutor-oficial-de-pensiones-magicas-magicbank",
+      "finanzas-completo": "https://chatgpt.com/g/g-68f5676553c48191b9134e9f3f874efa-tutor-inversiones-magicas-by-gustavo-puerta",
+      "artes": "https://chatgpt.com/g/g-69482335eefc81918355d1df644de6d0-artesyoficios-tutor-pro",
+      "chatgpt": "https://chatgpt.com/g/g-6925338f45d88191b5c5c2b3080e553a-tutor-especializado"
+    };
+
+    if (!routes[course]) {
+      throw new Error("Curso no autorizado");
+    }
+
+    statusEl.textContent = "Acceso aprobado. Redirigiendo…";
+    setTimeout(() => {
+      window.location.href = routes[course] + "?token=" + token;
+    }, 1200);
+
+  } catch (err) {
+    statusEl.innerHTML = "<span class='error'>Acceso no autorizado</span>";
+  }
+})();
+</script>
+
+</body>
+</html>
