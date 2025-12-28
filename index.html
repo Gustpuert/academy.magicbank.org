@@ -1,222 +1,107 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>MagicBank Academy</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <title>MagicBank Tutor Gateway</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
-    :root {
-      --azul: #070C2A;
-      --dorado: #D6B15A;
-      --blanco: #FFFFFF;
-      --gris: #CFCFD6;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
-      font-family: Arial, sans-serif;
-      background: var(--azul);
-      color: var(--blanco);
-      line-height: 1.5;
-    }
-
-    header {
+      margin: 0;
+      font-family: Inter, system-ui, sans-serif;
+      background: #070C2A;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
       text-align: center;
-      padding: 60px 20px;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
     }
 
-    header h1 {
-      font-size: 36px;
-      margin-bottom: 10px;
-    }
-
-    header p {
-      color: var(--gris);
-      font-size: 18px;
-    }
-
-    main {
-      max-width: 1100px;
-      margin: auto;
-      padding: 60px 20px;
-    }
-
-    h2 {
-      color: var(--dorado);
-      margin-bottom: 20px;
-      font-size: 26px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 24px;
-      margin-bottom: 60px;
-    }
-
-    .card {
+    .box {
+      max-width: 420px;
+      padding: 32px;
+      border-radius: 16px;
       background: rgba(255,255,255,0.05);
-      border-radius: 14px;
-      padding: 26px;
-      box-shadow: 0 10px 24px rgba(0,0,0,0.4);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
     }
 
-    .card h3 {
-      color: var(--dorado);
-      margin-bottom: 10px;
-      font-size: 20px;
+    h1 {
+      font-size: 22px;
+      margin-bottom: 12px;
+      color: #D6B15A;
     }
 
-    .card p {
-      color: var(--gris);
+    p {
       font-size: 15px;
-      margin-bottom: 18px;
+      color: #CFCFD6;
     }
 
-    .btn {
-      display: inline-block;
-      padding: 12px 22px;
-      background: var(--dorado);
-      color: #1A1A1A;
-      font-weight: bold;
-      border-radius: 8px;
-      text-decoration: none;
-      font-size: 14px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 40px 20px;
-      font-size: 13px;
-      color: var(--gris);
-      border-top: 1px solid rgba(255,255,255,0.1);
+    .error {
+      color: #ff6b6b;
     }
   </style>
 </head>
-
 <body>
 
-<header>
-  <h1>MagicBank Academy</h1>
-  <p>Cursos avanzados con Tutor IA · Aprendizaje real · Ritmo personalizado</p>
-</header>
-
-<main>
-
-<!-- COCINA Y BIENESTAR -->
-<h2>🍳 Cocina y Bienestar</h2>
-<div class="grid">
-
-  <div class="card">
-    <h3>Cocina Avanzada</h3>
-    <p>Técnica culinaria real, procesos correctos y acompañamiento profesional.</p>
-    <a class="btn" href="https://magicbank2.mitiendanube.com/productos/curso-de-cocina-avanzado-con-tutor-con-ia/" target="_blank">
-      Ir a la pasarela de pago
-    </a>
+  <div class="box">
+    <h1>Validando acceso</h1>
+    <p id="status">Conectando con MagicBank…</p>
   </div>
 
-  <div class="card">
-    <h3>Nutrición Inteligente</h3>
-    <p>Comprensión práctica de alimentación consciente y decisiones informadas.</p>
-    <a class="btn" href="https://magicbank2.mitiendanube.com/productos/nutricion-inteligente-avanzada-con-tutor-ia/" target="_blank">
-      Ir a la pasarela de pago
-    </a>
-  </div>
+<script>
+(async () => {
+  const statusEl = document.getElementById("status");
+  const params = new URLSearchParams(window.location.search);
+  const token = params.get("token");
 
-</div>
+  if (!token) {
+    statusEl.innerHTML = "<span class='error'>Acceso inválido</span>";
+    return;
+  }
 
-<!-- IDIOMAS -->
-<h2>🌍 Idiomas</h2>
-<div class="grid">
+  try {
+    const res = await fetch("https://magic-bank-backend-production-713e.up.railway.app/api/auth/verify", {
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    });
 
-  <div class="card">
-    <h3>Inglés Avanzado</h3>
-    <a class="btn" href="https://magicbank2.mitiendanube.com/productos/curso-avanzado-de-ingles-con-magic-tutor-pro/" target="_blank">
-      Ir a la pasarela de pago
-    </a>
-  </div>
+    if (!res.ok) throw new Error("Token inválido");
 
-  <div class="card">
-    <h3>Francés Avanzado</h3>
-    <a class="btn" href="https://magicbank2.mitiendanube.com/productos/curso-avanzado-de-frances-con-tutor-ia/" target="_blank">
-      Ir a la pasarela de pago
-    </a>
-  </div>
+    const data = await res.json();
+    const course = data.user.course;
 
-  <div class="card">
-    <h3>Italiano</h3>
-    <a class="btn" href="https://magicbank2.mitiendanube.com/productos/curso-de-italiano/" target="_blank">
-      Ir a la pasarela de pago
-    </a>
-  </div>
+    const routes = {
+      "italiano": "https://chatgpt.com/g/g-694ff655ce908191871b8656228b5971-profesor-de-italiano",
+      "aleman": "https://chatgpt.com/g/g-694ff6db1224819184d471e770ab7bf4-profesor-de-aleman",
+      "chino": "https://chatgpt.com/g/g-694fec2d35c88191833aa2af7d92fce0-maestro-de-chino-mandarin",
+      "portugues": "https://chatgpt.com/g/g-694ff45ee8a88191b72cd536885b0876-profesor-de-portugues",
+      "ingles": "https://chatgpt.com/g/g-69269540618c8191ad2fcc7a5a86b622-tutor-de-ingles-magicbank",
+      "frances": "https://chatgpt.com/g/g-692b740a32a08191b53be9f92bede4c3-scarlet-french-magic-tutor",
+      "cocina": "https://chatgpt.com/g/g-6925b1e4cff88191a3e46165e9ab7824-elchef",
+      "nutricion": "https://chatgpt.com/g/g-694ffee00bb88191b8a708c68b13a0e1-nutricion-inteligente-tutor-pro",
+      "trading": "https://chatgpt.com/g/g-6936550a35bc81919aa54bae25f5e133-trading-ciclico-tutor-magic-pro",
+      "pensiones": "https://chatgpt.com/g/g-6927e4527ac881919cf2697da6dd674b-tutor-oficial-de-pensiones-magicas-magicbank",
+      "finanzas-completo": "https://chatgpt.com/g/g-68f5676553c48191b9134e9f3f874efa-tutor-inversiones-magicas-by-gustavo-puerta",
+      "artes": "https://chatgpt.com/g/g-69482335eefc81918355d1df644de6d0-artesyoficios-tutor-pro",
+      "chatgpt": "https://chatgpt.com/g/g-6925338f45d88191b5c5c2b3080e553a-tutor-especializado"
+    };
 
-  <div class="card">
-    <h3>Portugués</h3>
-    <a class="btn" href="https://magicbank2.mitiendanube.com/productos/curso-de-portugues/" target="_blank">
-      Ir a la pasarela de pago
-    </a>
-  </div>
+    if (!routes[course]) {
+      throw new Error("Curso no autorizado");
+    }
 
-  <div class="card">
-    <h3>Alemán</h3>
-    <a class="btn" href="https://magicbank2.mitiendanube.com/productos/curso-de-aleman/" target="_blank">
-      Ir a la pasarela de pago
-    </a>
-  </div>
+    statusEl.textContent = "Acceso aprobado. Redirigiendo…";
+    setTimeout(() => {
+      window.location.href = routes[course] + "?token=" + token;
+    }, 1200);
 
-  <div class="card">
-    <h3>Chino</h3>
-    <a class="btn" href="https://magicbank2.mitiendanube.com/productos/curso-de-chino/" target="_blank">
-      Ir a la pasarela de pago
-    </a>
-  </div>
-
-</div>
-
-<!-- TECNOLOGÍA -->
-<h2>🤖 Tecnología y Conocimiento Digital</h2>
-<div class="grid">
-
-  <div class="card">
-    <h3>ChatGPT Profesional</h3>
-    <p>Uso estratégico, productivo y profesional de inteligencia artificial.</p>
-    <a class="btn" href="https://magicbank2.mitiendanube.com/productos/curso-profesional-de-chatgpt/" target="_blank">
-      Ir a la pasarela de pago
-    </a>
-  </div>
-
-  <div class="card">
-    <h3>Curso Personalizado</h3>
-    <p>Formación diseñada a la medida con Magic Tutor Pro IA.</p>
-    <a class="btn" href="https://magicbank2.mitiendanube.com/productos/curso-personalizado-magic-tutor-pro-ia/" target="_blank">
-      Ir a la pasarela de pago
-    </a>
-  </div>
-
-</div>
-
-<!-- FINANZAS -->
-<h2>💰 Finanzas</h2>
-<div class="grid">
-
-  <div class="card">
-    <h3>Trading Cíclico + Pensión Mágica</h3>
-    <p>Formación completa en ciclos de mercado y planificación financiera.</p>
-    <a class="btn" href="https://magicbank2.mitiendanube.com/productos/cursos-avanzados-magicbank/" target="_blank">
-      Ir a la pasarela de pago
-    </a>
-  </div>
-
-</div>
-
-</main>
-
-<footer>
-  <p>© MagicBank Academy · Formación guiada por Tutor IA</p>
-</footer>
+  } catch (err) {
+    statusEl.innerHTML = "<span class='error'>Acceso no autorizado</span>";
+  }
+})();
+</script>
 
 </body>
 </html>
