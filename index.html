@@ -2,164 +2,186 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>MagicBank Academy</title>
+  <title>MagicBank | Academy</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --azul: #070C2A;
-      --dorado: #D6B15A;
+      --azul-profundo: #070C2A;
       --blanco: #FFFFFF;
       --gris: #CFCFD6;
+      --dorado: #D6B15A;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: Arial, sans-serif;
-      background: var(--azul);
+      font-family: 'Inter', sans-serif;
+      background-color: var(--azul-profundo);
       color: var(--blanco);
-      line-height: 1.5;
+      line-height: 1.7;
+    }
+
+    /* BOTÓN MENÚ */
+    .menu-toggle {
+      position: fixed;
+      top: 18px;
+      left: 18px;
+      background: rgba(214,177,90,0.25);
+      border: 1px solid rgba(214,177,90,0.5);
+      color: var(--dorado);
+      padding: 10px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      z-index: 10000;
+      font-weight: 600;
+    }
+
+    /* MENÚ */
+    .menu {
+      position: fixed;
+      top: 0;
+      left: -300px;
+      width: 270px;
+      height: 100vh;
+      background: rgba(7,12,42,0.98);
+      padding: 28px 20px;
+      transition: left .3s ease;
+      z-index: 9999;
+      box-shadow: 8px 0 30px rgba(0,0,0,.6);
+    }
+
+    .menu.open { left: 0; }
+
+    .menu a {
+      display: block;
+      color: var(--gris);
+      text-decoration: none;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    .menu a:hover {
+      color: var(--dorado);
     }
 
     header {
+      padding: 110px 24px 70px;
       text-align: center;
-      padding: 60px 20px;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
     }
 
     header h1 {
-      font-size: 36px;
-      margin-bottom: 10px;
+      font-size: 42px;
+      color: var(--dorado);
+      margin-bottom: 20px;
     }
 
     header p {
+      max-width: 880px;
+      margin: auto;
       color: var(--gris);
-      font-size: 18px;
+      font-size: 16px;
     }
 
     main {
       max-width: 1100px;
       margin: auto;
-      padding: 60px 20px;
+      padding: 60px 24px;
     }
 
-    h2 {
-      color: var(--dorado);
-      margin-bottom: 20px;
-      font-size: 26px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 24px;
-      margin-bottom: 60px;
-    }
-
-    .card {
+    .bloque {
       background: rgba(255,255,255,0.05);
-      border-radius: 14px;
-      padding: 26px;
-      box-shadow: 0 10px 24px rgba(0,0,0,0.4);
+      border-radius: 16px;
+      padding: 40px;
+      margin-bottom: 40px;
     }
 
-    .card h3 {
+    .bloque h2 {
       color: var(--dorado);
-      margin-bottom: 10px;
-      font-size: 20px;
-    }
-
-    .card p {
-      color: var(--gris);
-      font-size: 15px;
       margin-bottom: 18px;
     }
 
-    .btn {
-      display: inline-block;
-      padding: 12px 22px;
-      background: var(--dorado);
-      color: #1A1A1A;
-      font-weight: bold;
-      border-radius: 8px;
-      text-decoration: none;
-      font-size: 14px;
+    .bloque p {
+      color: var(--blanco);
+      font-size: 15px;
+      margin-bottom: 14px;
     }
 
     footer {
       text-align: center;
       padding: 40px 20px;
-      font-size: 13px;
       color: var(--gris);
-      border-top: 1px solid rgba(255,255,255,0.1);
+      font-size: 13px;
+      border-top: 1px solid rgba(255,255,255,0.08);
     }
   </style>
 </head>
 
 <body>
 
+<div class="menu-toggle" onclick="toggleMenu()">☰ Menú</div>
+
+<div class="menu" id="menu">
+  <a href="https://magicbank.org">Inicio</a>
+  <a href="https://gustpuert.github.io/university.magicbank.org/">University (Pago)</a>
+  <a href="https://magicbank.org/fabrica-de-tutores-pago.html">Fábrica de Tutores</a>
+</div>
+
 <header>
   <h1>MagicBank Academy</h1>
-  <p>Cursos avanzados con Tutor IA · Aprendizaje real · Ritmo personalizado</p>
+  <p>
+    Formación especializada basada en inteligencia artificial,
+    con acompañamiento progresivo y certificación automatizada.
+  </p>
 </header>
 
 <main>
 
-<h2>🍳 Cocina y Bienestar</h2>
-<div class="grid">
-  <div class="card">
-    <h3>Cocina Avanzada</h3>
-    <p>Técnica culinaria real, procesos correctos y acompañamiento profesional.</p>
-    <a class="btn" href="https://magicbank2.mitiendanube.com/productos/curso-de-cocina-avanzado-con-tutor-con-ia/" target="_blank">
-      Ir a la pasarela de pago
-    </a>
+  <div class="bloque">
+    <h2>Formación Especializada</h2>
+    <p>
+      MagicBank Academy reúne programas formativos diseñados para el desarrollo
+      profesional, técnico y estratégico, adaptados al ritmo del estudiante.
+    </p>
   </div>
 
-  <div class="card">
-    <h3>Nutrición Inteligente</h3>
-    <p>Comprensión práctica de alimentación consciente y decisiones informadas.</p>
-    <a class="btn" href="https://magicbank2.mitiendanube.com/productos/nutricion-inteligente-avanzada-con-tutor-ia/" target="_blank">
-      Ir a la pasarela de pago
-    </a>
+  <div class="bloque">
+    <h2>Aprendizaje Adaptativo</h2>
+    <p>
+      El sistema detecta el nivel del estudiante, ajusta la dificultad y refuerza
+      automáticamente los conceptos que requieren mayor atención.
+    </p>
   </div>
-</div>
 
-<h2>🌍 Idiomas</h2>
-<div class="grid">
-  <div class="card"><h3>Inglés</h3><a class="btn" href="https://magicbank2.mitiendanube.com/productos/curso-avanzado-de-ingles-con-magic-tutor-pro/" target="_blank">Ir a la pasarela de pago</a></div>
-  <div class="card"><h3>Francés</h3><a class="btn" href="https://magicbank2.mitiendanube.com/productos/curso-avanzado-de-frances-con-tutor-ia/" target="_blank">Ir a la pasarela de pago</a></div>
-  <div class="card"><h3>Italiano</h3><a class="btn" href="https://magicbank2.mitiendanube.com/productos/curso-de-italiano/" target="_blank">Ir a la pasarela de pago</a></div>
-  <div class="card"><h3>Portugués</h3><a class="btn" href="https://magicbank2.mitiendanube.com/productos/curso-de-portugues/" target="_blank">Ir a la pasarela de pago</a></div>
-  <div class="card"><h3>Alemán</h3><a class="btn" href="https://magicbank2.mitiendanube.com/productos/curso-de-aleman/" target="_blank">Ir a la pasarela de pago</a></div>
-  <div class="card"><h3>Chino</h3><a class="btn" href="https://magicbank2.mitiendanube.com/productos/curso-de-chino/" target="_blank">Ir a la pasarela de pago</a></div>
-</div>
-
-<h2>🤖 Tecnología</h2>
-<div class="grid">
-  <div class="card">
-    <h3>ChatGPT Profesional</h3>
-    <a class="btn" href="https://magicbank2.mitiendanube.com/productos/curso-profesional-de-chatgpt/" target="_blank">
-      Ir a la pasarela de pago
-    </a>
+  <div class="bloque">
+    <h2>Evaluación y Progreso</h2>
+    <p>
+      Cada módulo cuenta con evaluación implícita y explícita.
+      Solo quienes dominan el contenido pueden avanzar.
+    </p>
   </div>
-</div>
 
-<h2>💰 Finanzas</h2>
-<div class="grid">
-  <div class="card">
-    <h3>Trading Cíclico + Pensión Mágica</h3>
-    <a class="btn" href="https://magicbank2.mitiendanube.com/productos/cursos-avanzados-magicbank/" target="_blank">
-      Ir a la pasarela de pago
-    </a>
+  <div class="bloque">
+    <h2>Certificación MagicBank</h2>
+    <p>
+      El certificado es emitido automáticamente por el tutor,
+      garantizando conocimiento real y verificable.
+    </p>
   </div>
-</div>
 
 </main>
 
 <footer>
-  <p>© MagicBank Academy · Formación guiada por Tutor IA</p>
+  MagicBank © Educación Inteligente del Futuro
 </footer>
+
+<script>
+  function toggleMenu() {
+    document.getElementById("menu").classList.toggle("open");
+  }
+</script>
 
 </body>
 </html>
