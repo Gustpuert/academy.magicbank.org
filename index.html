@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MagicBank Academy</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --azul:#070C2A;
+  --dorado:#D6B15A;
+  --gris:#CFCFD6;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+  font-family:Inter,sans-serif;
+  background:var(--azul);
+  color:white;
+}
+
+.menu-toggle{
+  position:fixed;
+  top:18px;
+  left:18px;
+  background:rgba(214,177,90,.25);
+  border:1px solid rgba(214,177,90,.6);
+  color:var(--dorado);
+  padding:10px 16px;
+  border-radius:10px;
+  cursor:pointer;
+  z-index:9999;
+}
+
+.menu{
+  position:fixed;
+  top:0;
+  left:-280px;
+  width:260px;
+  height:100vh;
+  background:rgba(7,12,42,.97);
+  padding:90px 20px;
+  transition:.3s;
+  z-index:9998;
+}
+
+.menu.open{left:0}
+
+.menu a{
+  display:block;
+  color:#ccc;
+  margin-bottom:14px;
+  text-decoration:none;
+}
+.menu a:hover{color:var(--dorado)}
+
+.hero{
+  max-width:1100px;
+  margin:90px auto 60px;
+  border-radius:22px;
+  overflow:hidden;
+  box-shadow:0 35px 80px rgba(0,0,0,.75);
+}
+
+.hero img{width:100%;display:block}
+
+section{
+  max-width:1200px;
+  margin:auto;
+  padding:40px 28px;
+}
+
+h1{
+  text-align:center;
+  color:var(--dorado);
+  margin-bottom:20px;
+}
+
+.intro{
+  text-align:center;
+  color:var(--gris);
+  margin-bottom:60px;
+  font-size:17px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:30px;
+}
+
+.card{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:16px;
+  padding:26px;
+}
+
+.card h3{color:var(--dorado)}
+.card p{color:var(--gris);margin-bottom:18px}
+
+.btn{
+  background:var(--dorado);
+  color:#111;
+  padding:12px 22px;
+  border-radius:8px;
+  font-weight:600;
+  text-decoration:none;
+}
+
+.note{
+  margin-top:60px;
+  padding:30px;
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:16px;
+  background:rgba(255,255,255,.03);
+  color:var(--gris);
+  font-size:16px;
+}
+
+.note strong{color:var(--dorado)}
+
+footer{
+  text-align:center;
+  padding:40px;
+  color:var(--gris);
+}
+</style>
+</head>
+
+<body onclick="closeMenu(event)">
+
+<div class="menu-toggle" onclick="toggleMenu()">☰ Menu</div>
+
+<div class="menu" id="menu">
+  <a href="https://magicbank.org">Home</a>
+  <a href="https://academy.magicbank.org/">Academy</a>
+  <a href="https://gustpuert.github.io/university.magicbank.org/">University</a>
+  
+  <hr style="margin:20px 0;border-color:#444">
+  <a href="#" onclick="setLang('en')">🇬🇧 English</a>
+  <a href="#" onclick="setLang('es')">🇪🇸 Español</a>
+</div>
+
+<div class="hero">
+  <img src="https://gustpuert.github.io/tutores.academy.magicbank.org/picture-magicbank-academy.png" alt="MagicBank Academy">
+</div>
+
+<section>
+<h1 data-i18n="title">MagicBank Academy</h1>
+<p class="intro" data-i18n="intro">
+Advanced professional education powered by artificial intelligence and real human-level tutors.
+</p>
+
+<div class="grid">
+
+<!-- ARTES Y OFICIOS AGREGADO -->
+<div class="card">
+  <h3>Artes y Oficios</h3>
+  <p>Entrepreneurial crafts, production and applied learning.</p>
+  <a class="btn" href="https://magicbank2.mitiendanube.com/productos/artes-y-oficios-magicbank/" target="_blank">Enter</a>
+</div>
+
+<div class="card"><h3>Advanced Cooking</h3><p>Professional culinary training.</p><a class="btn" href="https://magicbank2.mitiendanube.com/productos/curso-de-cocina-avanzado-con-tutor-con-ia/" target="_blank">Enter</a></div>
+
+<div class="card"><h3>Smart Nutrition</h3><p>Applied nutrition and healthy habits.</p><a class="btn" href="https://magicbank2.mitiendanube.com/productos/nutricion-inteligente-avanzada-con-tutor-ia/" target="_blank">Enter</a></div>
+
+<div class="card"><h3>Advanced ChatGPT</h3><p>Professional AI usage.</p><a class="btn" href="https://magicbank2.mitiendanube.com/productos/curso-profesional-de-chatgpt/" target="_blank">Enter</a></div>
+
+<div class="card"><h3>Advanced English</h3><p>Real English mastery.</p><a class="btn" href="https://magicbank2.mitiendanube.com/productos/curso-de-ingles-con-tutor-ia/" target="_blank">Enter</a></div>
+
+<div class="card"><h3>French</h3><p>French language mastery.</p><a class="btn" href="https://magicbank2.mitiendanube.com/productos/curso-de-frances/" target="_blank">Enter</a></div>
+
+<div class="card"><h3>Portuguese</h3><p>Portuguese language training.</p><a class="btn" href="https://magicbank2.mitiendanube.com/productos/curso-de-portugues/" target="_blank">Enter</a></div>
+
+<div class="card"><h3>Italian</h3><p>Italian fluency.</p><a class="btn" href="https://magicbank2.mitiendanube.com/productos/curso-de-italiano/" target="_blank">Enter</a></div>
+
+<div class="card"><h3>German</h3><p>German structure and logic.</p><a class="btn" href="https://magicbank2.mitiendanube.com/productos/curso-de-aleman/" target="_blank">Enter</a></div>
+
+<div class="card"><h3>Mandarin Chinese</h3><p>Mandarin language mastery.</p><a class="btn" href="https://magicbank2.mitiendanube.com/productos/curso-de-chino-mandarin/" target="_blank">Enter</a></div>
+
+<div class="card"><h3>Cyclical Trading</h3><p>Market cycle strategies.</p><a class="btn" href="https://magicbank2.mitiendanube.com/productos/magicbank-curso-de-banca-digital1/" target="_blank">Enter</a></div>
+
+</div>
+
+<div class="note" data-i18n="note">
+<strong>Important:</strong> All MagicBank tutors speak all languages fluently.  
+You can study in Spanish, English, Portuguese, Chinese or any other language.  
+When you enter a course, the tutor will simply ask:  
+<strong>“Which language do you prefer?”</strong>  
+
+These are not automatic translations.  
+They are intelligent tutors trained to teach naturally in your language, ensuring perfect understanding and professional learning.
+</div>
+
+</section>
+
+<footer>
+© MagicBank Academy — Adaptive education by layers.
+</footer>
+
+<script>
+const texts = {
+  en:{
+    title:"MagicBank Academy",
+    intro:"Advanced professional education powered by artificial intelligence and real human-level tutors.",
+    note:"Important: All MagicBank tutors speak all languages fluently. You can study in Spanish, English, Portuguese, Chinese or any other language. When you enter a course, the tutor will simply ask: “Which language do you prefer?” These are not automatic translations. They are intelligent tutors trained to teach naturally in your language, ensuring perfect understanding and professional learning."
+  },
+  es:{
+    title:"MagicBank Academy",
+    intro:"Formación profesional avanzada impulsada por inteligencia artificial y tutores de nivel humano.",
+    note:"Importante: Todos los tutores de MagicBank hablan todos los idiomas con fluidez. Puedes estudiar en español, inglés, portugués, chino o cualquier idioma. Al ingresar al curso, el tutor simplemente te preguntará: “¿Qué idioma prefieres?” No son traducciones automáticas. Son tutores inteligentes entrenados para enseñar de forma natural en tu idioma."
+  }
+};
+
+function setLang(lang){
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+    el.innerText = texts[lang][el.dataset.i18n];
+  });
+  document.getElementById("menu").classList.remove("open");
+}
+
+function toggleMenu(){
+  document.getElementById("menu").classList.toggle("open");
+}
+
+function closeMenu(e){
+  if(!e.target.closest(".menu") && !e.target.closest(".menu-toggle")){
+    document.getElementById("menu").classList.remove("open");
+  }
+}
+</script>
+
+</body>
+</html>
+```0
