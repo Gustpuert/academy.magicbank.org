@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 
@@ -11,9 +12,45 @@
 <script>
 
 const params = new URLSearchParams(window.location.search);
-const module = params.get("module");
 
-const tutors = {
+const module = params.get("module");
+const token = localStorage.getItem("magicbank_token");
+
+if(!token){
+
+document.body.innerHTML =
+"<h2>Acceso no autorizado</h2><p>Debes ingresar desde el portal MagicBank.</p>";
+
+throw new Error("No token");
+
+}
+
+fetch("https://magic-bank-backend-production-713e.up.railway.app/api/validate-token",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+token:token
+})
+
+})
+.then(res=>res.json())
+.then(data=>{
+
+if(!data.valid){
+
+document.body.innerHTML =
+"<h2>Token expirado</h2><p>Tu acceso ha terminado.</p>";
+
+return;
+
+}
+
+const tutors={
 
 "ingles":"https://chatgpt.com/g/g-699e366421f08191b14fc6af17f251fd-bachillerato-tutor-de-ingles",
 
@@ -39,13 +76,15 @@ const tutors = {
 
 if(tutors[module]){
 
-window.location = tutors[module];
+window.location=tutors[module];
 
 }else{
 
-document.body.innerHTML = "<h2>Módulo no encontrado</h2>";
+document.body.innerHTML="<h2>Módulo no encontrado</h2>";
 
 }
+
+});
 
 </script>
 
