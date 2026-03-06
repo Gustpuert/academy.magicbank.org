@@ -3,53 +3,53 @@
 
 <head>
 <meta charset="UTF-8">
-<title>MagicBank Tutor Proxy</title>
+<title>MagicBank Tutor Gateway</title>
+
+<style>
+
+body{
+font-family:Arial;
+text-align:center;
+margin-top:80px;
+background:#f4f6fb;
+}
+
+h2{
+color:#1a237e;
+}
+
+button{
+padding:14px 28px;
+font-size:16px;
+margin:10px;
+border:none;
+border-radius:6px;
+background:#1a237e;
+color:white;
+cursor:pointer;
+}
+
+button:hover{
+background:#0d134d;
+}
+
+</style>
+
 </head>
 
 <body>
 
+<h2>MagicBank Tutor Gateway</h2>
+<p>Conectando con el módulo educativo...</p>
+
 <script>
 
 const params = new URLSearchParams(window.location.search);
-
 const module = params.get("module");
-const token = localStorage.getItem("magicbank_token");
 
-if(!token){
+const tutors = {
 
-document.body.innerHTML =
-"<h2>Acceso no autorizado</h2><p>Debes ingresar desde el portal MagicBank.</p>";
-
-throw new Error("No token");
-
-}
-
-fetch("https://magic-bank-backend-production-713e.up.railway.app/api/validate-token",{
-
-method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify({
-token:token
-})
-
-})
-.then(res=>res.json())
-.then(data=>{
-
-if(!data.valid){
-
-document.body.innerHTML =
-"<h2>Token expirado</h2><p>Tu acceso ha terminado.</p>";
-
-return;
-
-}
-
-const tutors={
+"director":"https://chatgpt.com/g/g-699e59962d20819194b173b12f4857ed-bachillerato-director-academico-tutor-pro",
 
 "ingles":"https://chatgpt.com/g/g-699e366421f08191b14fc6af17f251fd-bachillerato-tutor-de-ingles",
 
@@ -75,15 +75,24 @@ const tutors={
 
 if(tutors[module]){
 
-window.location=tutors[module];
+setTimeout(function(){
+
+window.location = tutors[module];
+
+},800);
 
 }else{
 
-document.body.innerHTML="<h2>Módulo no encontrado</h2>";
+document.body.innerHTML = `
+<h2>Módulo no encontrado</h2>
+<p>Regresa al Director Académico.</p>
+
+<button onclick="window.location.href='https://academy.magicbank.org/tutor_proxy.html?module=director'">
+Volver al Director
+</button>
+`;
 
 }
-
-});
 
 </script>
 
