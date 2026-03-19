@@ -211,35 +211,70 @@ They are intelligent tutors trained to teach naturally in your language, ensurin
 </footer>
 
 <script>
-const texts = {
-  en:{
-    title:"MagicBank Academy",
-    intro:"Advanced professional education powered by artificial intelligence and real human-level tutors.",
-    note:"Important: All MagicBank tutors speak all languages fluently. You can study in Spanish, English, Portuguese, Chinese or any other language. When you enter a course, the tutor will simply ask: “Which language do you prefer?” These are not automatic translations. They are intelligent tutors trained to teach naturally in your language, ensuring perfect understanding and professional learning."
-  },
-  es:{
-    title:"MagicBank Academy",
-    intro:"Formación profesional avanzada impulsada por inteligencia artificial y tutores de nivel humano.",
-    note:"Importante: Todos los tutores de MagicBank hablan todos los idiomas con fluidez. Puedes estudiar en español, inglés, portugués, chino o cualquier idioma. Al ingresar al curso, el tutor simplemente te preguntará: “¿Qué idioma prefieres?” No son traducciones automáticas. Son tutores inteligentes entrenados para enseñar de forma natural en tu idioma."
-  }
+function normalize(t){
+return t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+}
+
+let courses = [];
+
+const input = document.getElementById("searchInput");
+const suggestions = document.getElementById("suggestions");
+
+/* ===============================
+CARGA DESDE BACKEND (REAL)
+=============================== */
+fetch("https://magic-bank-backend-production-713e.up.railway.app/api/catalogo-publico")
+.then(res => res.json())
+.then(data => {
+courses = data;
+})
+.catch(err => {
+console.error("Error cargando catálogo:", err);
+});
+
+/* ===============================
+BUSCADOR
+=============================== */
+input.addEventListener("input", function(){
+
+let v = normalize(this.value);
+suggestions.innerHTML = "";
+
+if(v.length < 2){
+suggestions.style.display = "none";
+return;
+}
+
+let matches = courses.filter(c =>
+normalize(c.nombre).includes(v)
+);
+
+matches.slice(0,6).forEach(c => {
+
+let div = document.createElement("div");
+div.className = "suggestion";
+div.innerText = c.nombre;
+
+div.onclick = () => {
+window.location.href = c.store_url;
 };
 
-function setLang(lang){
-  document.querySelectorAll("[data-i18n]").forEach(el=>{
-    el.innerText = texts[lang][el.dataset.i18n];
-  });
-  document.getElementById("menu").classList.remove("open");
-}
+suggestions.appendChild(div);
 
-function toggleMenu(){
-  document.getElementById("menu").classList.toggle("open");
-}
+});
 
-function closeMenu(e){
-  if(!e.target.closest(".menu") && !e.target.closest(".menu-toggle")){
-    document.getElementById("menu").classList.remove("open");
-  }
+suggestions.style.display = "block";
+
+});
+
+/* ===============================
+CIERRE SUGERENCIAS
+=============================== */
+document.addEventListener("click",(e)=>{
+if(!e.target.closest(".search")){
+suggestions.style.display="none";
 }
+});
 </script>
 
 </body>
