@@ -348,7 +348,9 @@ Activate Tutor<span class="es">Activar Tutor</span>
 The Education of the Future — Today
 <span class="es">La educación del futuro — hoy</span>
 </footer>
-<script>
+
+
+  <script>
 
 function normalize(t){
 return (t || "")
@@ -358,60 +360,83 @@ return (t || "")
 .trim();
 }
 
-let courses = [];
-
 /* =========================
-BASE FIJA MAGICBANK 🔥
+BASE REAL MAGICBANK
 ========================= */
 
-const fixedData = [
+const MB_DATA = [
 
-/* ACADEMY */
-{ name:"Cocina Avanzada", url:"https://magicbank2.mitiendanube.com/productos/curso-de-cocina-avanzado-con-tutor-con-ia/", tags:["cocina","curso","academy"]},
-{ name:"Nutrición Inteligente", url:"https://magicbank2.mitiendanube.com/productos/nutricion-inteligente-avanzada-con-tutor-ia/", tags:["nutricion","curso","academy"]},
-{ name:"ChatGPT Avanzado", url:"https://magicbank2.mitiendanube.com/productos/curso-profesional-de-chatgpt/", tags:["chatgpt","curso","academy"]},
-{ name:"Artes y Oficios", url:"https://magicbank2.mitiendanube.com/productos/artes-y-oficios-magicbank/", tags:["artes","curso","academy"]},
+/* 🌍 IDIOMAS */
+{ name:"Español", url:"https://magicbank2.mitiendanube.com/productos/curso-de-espanol-gj55x/", category:"idiomas"},
+{ name:"Inglés", url:"https://magicbank2.mitiendanube.com/productos/curso-avanzado-de-ingles-con-magic-tutor-pro/", category:"idiomas"},
+{ name:"Francés", url:"https://magicbank2.mitiendanube.com/productos/curso-avanzado-de-frances-con-tutor-ia/", category:"idiomas"},
+{ name:"Portugués", url:"https://magicbank2.mitiendanube.com/productos/curso-de-portugues/", category:"idiomas"},
+{ name:"Italiano", url:"https://magicbank2.mitiendanube.com/productos/curso-de-italiano/", category:"idiomas"},
+{ name:"Alemán", url:"https://magicbank2.mitiendanube.com/productos/curso-de-aleman/", category:"idiomas"},
+{ name:"Chino", url:"https://magicbank2.mitiendanube.com/productos/curso-de-chino/", category:"idiomas"},
 
-/* UNIVERSITY */
-{ name:"Derecho", url:"https://gustpuert.github.io/university.magicbank.org/", tags:["derecho","facultad","university"]},
-{ name:"Contaduría", url:"https://gustpuert.github.io/university.magicbank.org/", tags:["contaduria","facultad"]},
-{ name:"Marketing", url:"https://gustpuert.github.io/university.magicbank.org/", tags:["marketing","facultad"]},
-{ name:"Administración y Negocios", url:"https://gustpuert.github.io/university.magicbank.org/", tags:["administracion","negocios","facultad"]},
-{ name:"Desarrollo de Software", url:"https://gustpuert.github.io/university.magicbank.org/", tags:["software","facultad"]},
+/* 🎓 ACADEMY */
+{ name:"Cocina Avanzada", url:"https://magicbank2.mitiendanube.com/productos/curso-de-cocina-avanzado-con-tutor-con-ia/", category:"academy"},
+{ name:"Nutrición Inteligente", url:"https://magicbank2.mitiendanube.com/productos/nutricion-inteligente-avanzada-con-tutor-ia/", category:"academy"},
+{ name:"ChatGPT Avanzado", url:"https://magicbank2.mitiendanube.com/productos/curso-profesional-de-chatgpt/", category:"academy"},
+{ name:"Artes y Oficios", url:"https://magicbank2.mitiendanube.com/productos/artes-y-oficios-magicbank/", category:"academy"},
 
-/* TAP */
-{ name:"TAP Empresas", url:"https://magicbank2.mitiendanube.com/productos/tap-empresas/", tags:["empresa","tap"]},
-{ name:"TAP Salud", url:"https://magicbank2.mitiendanube.com/productos/tap-salud/", tags:["salud","tap"]},
-{ name:"TAP Derecho", url:"https://magicbank2.mitiendanube.com/productos/tap-derecho/", tags:["derecho","tap"]},
-{ name:"TAP Educación", url:"https://magicbank2.mitiendanube.com/productos/tap-educacion/", tags:["educacion","tap"]},
-{ name:"TAP Administración Pública", url:"https://magicbank2.mitiendanube.com/productos/tap-administracion-publica/", tags:["publica","tap"]},
-{ name:"TAP Ingeniería", url:"https://magicbank2.mitiendanube.com/productos/tap-ingenieros/", tags:["ingenieria","tap"]},
+/* 🏛 UNIVERSITY */
+{ name:"Derecho", url:"https://magicbank2.mitiendanube.com/productos/derecho-magicbank/", category:"university"},
+{ name:"Contaduría", url:"https://magicbank2.mitiendanube.com/productos/contaduria-magicbank/", category:"university"},
+{ name:"Marketing", url:"https://magicbank2.mitiendanube.com/productos/marketing-magicbank/", category:"university"},
+{ name:"Administración y Negocios", url:"https://magicbank2.mitiendanube.com/productos/administracion-y-negocios-magicbank/", category:"university"},
+{ name:"Desarrollo de Software", url:"https://magicbank2.mitiendanube.com/productos/desarrollo-de-software-magicbank/", category:"university"},
+
+/* 🏢 TAP */
+{ name:"TAP Empresas", url:"https://magicbank2.mitiendanube.com/productos/tap-empresas/", category:"tap"},
+{ name:"TAP Salud", url:"https://magicbank2.mitiendanube.com/productos/tap-salud/", category:"tap"},
+{ name:"TAP Derecho", url:"https://magicbank2.mitiendanube.com/productos/tap-derecho/", category:"tap"},
+{ name:"TAP Educación", url:"https://magicbank2.mitiendanube.com/productos/tap-educacion/", category:"tap"},
+{ name:"TAP Administración Pública", url:"https://magicbank2.mitiendanube.com/productos/tap-administracion-publica/", category:"tap"},
+{ name:"TAP Ingeniería", url:"https://magicbank2.mitiendanube.com/productos/tap-ingenieros/", category:"tap"}
 
 ];
 
 /* =========================
-CATALOGO DINÁMICO
+INTELIGENCIA (CLAVE)
 ========================= */
 
-fetch("https://magic-bank-backend-production-713e.up.railway.app/api/catalogo-publico")
-.then(res => res.json())
-.then(data => {
+function detectIntent(text){
 
-courses = data.map(c => ({
-name: c.nombre,
-url: c.url || c.store_url || "#",
-tags: [
-normalize(c.nombre),
-normalize(c.area),
-"curso"
-]
-}));
+let t = normalize(text);
 
-})
-.catch(err => console.log("sin catálogo"));
+/* 🔥 SINÓNIMOS INTELIGENTES */
+
+if(t.includes("idioma") || t.includes("idiomas") || t.includes("lenguaje") || t.includes("lenguas")){
+return "idiomas";
+}
+
+if(t.includes("curso") || t.includes("cursos") || t.includes("aprender")){
+return "academy";
+}
+
+if(t.includes("facultad") || t.includes("carrera") || t.includes("universidad")){
+return "university";
+}
+
+if(t.includes("empresa") || t.includes("tap") || t.includes("profesional")){
+return "tap";
+}
+
+/* PALABRAS DIRECTAS */
+if(t.includes("cocina")) return "academy";
+if(t.includes("nutricion")) return "academy";
+if(t.includes("chatgpt")) return "academy";
+
+if(t.includes("derecho")) return "university";
+if(t.includes("marketing")) return "university";
+
+return "general";
+}
 
 /* =========================
-BUSCADOR REAL
+BUSCADOR INTELIGENTE
 ========================= */
 
 const input = document.getElementById("searchInput");
@@ -419,36 +444,46 @@ const suggestions = document.getElementById("suggestions");
 
 input.addEventListener("input", function(){
 
-let value = normalize(this.value);
-suggestions.innerHTML = "";
+let value = this.value;
 
 if(value.length < 2){
 suggestions.style.display = "none";
 return;
 }
 
-/* 🔥 UNIÓN DE DATOS */
-let all = [...fixedData, ...courses];
+let intent = detectIntent(value);
 
-let results = all.map(c => {
+let results = [];
 
-let score = 0;
+/* 🔥 RESPUESTA POR INTENCIÓN */
 
-c.tags.forEach(t=>{
-if(t.includes(value)) score += 3;
-});
+if(intent === "idiomas"){
+results = MB_DATA.filter(i => i.category === "idiomas");
+}
 
-if(normalize(c.name).includes(value)) score += 5;
+else if(intent === "academy"){
+results = MB_DATA.filter(i => i.category === "academy");
+}
 
-return {...c, score};
+else if(intent === "university"){
+results = MB_DATA.filter(i => i.category === "university");
+}
 
-})
-.filter(r => r.score > 0)
-.sort((a,b)=>b.score - a.score)
-.slice(0,8);
+else if(intent === "tap"){
+results = MB_DATA.filter(i => i.category === "tap");
+}
+
+else{
+/* fallback */
+results = MB_DATA.filter(i =>
+normalize(i.name).includes(normalize(value))
+);
+}
 
 /* RENDER */
-results.forEach(r => {
+suggestions.innerHTML = "";
+
+results.slice(0,10).forEach(r => {
 
 let div = document.createElement("div");
 div.className = "suggestion";
@@ -456,10 +491,7 @@ div.innerText = r.name;
 
 div.onclick = () => {
 window.open(r.url, "_blank");
-
-/* 🔥 LIMPIA BUSCADOR */
 input.value = "";
-suggestions.innerHTML = "";
 suggestions.style.display = "none";
 };
 
@@ -467,17 +499,18 @@ suggestions.appendChild(div);
 
 });
 
-suggestions.style.display = results.length ? "block" : "none";
+suggestions.style.display = "block";
 
 });
 
+/* cerrar */
 document.addEventListener("click",(e)=>{
 if(!e.target.closest(".search")){
 suggestions.style.display="none";
 }
 });
 
-</script>
+  </script>
 
 </body>
 </html>
