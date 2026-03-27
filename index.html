@@ -365,26 +365,59 @@ fetch("https://magic-bank-backend-production-713e.up.railway.app/api/catalogo-pu
 .then(res => res.json())
 .then(data => {
 
-courses = data.map(c => ({
+courses = data.map(c => {
+
+let baseKeywords = [
+c.nombre,
+c.area,
+"curso","cursos","clase","clases","formacion","aprendizaje"
+];
+
+/* 🔥 CLASIFICACIÓN INTELIGENTE */
+
+if(normalize(c.area).includes("idioma") || normalize(c.nombre).includes("ingles") || normalize(c.nombre).includes("espanol")){
+baseKeywords.push("academy","idiomas");
+}
+
+/* ACADEMY CURSOS */
+if(
+normalize(c.nombre).includes("cocina") ||
+normalize(c.nombre).includes("nutricion") ||
+normalize(c.nombre).includes("chatgpt") ||
+normalize(c.nombre).includes("interiores") ||
+normalize(c.nombre).includes("artes")
+){
+baseKeywords.push("academy","curso","cursos");
+}
+
+/* UNIVERSITY */
+if(
+normalize(c.area).includes("derecho") ||
+normalize(c.area).includes("contaduria") ||
+normalize(c.area).includes("marketing") ||
+normalize(c.area).includes("administracion") ||
+normalize(c.area).includes("software")
+){
+baseKeywords.push("facultad","university","carrera");
+}
+
+/* TAP */
+if(
+normalize(c.area).includes("salud") ||
+normalize(c.area).includes("publica") ||
+normalize(c.area).includes("ingenieria") ||
+normalize(c.area).includes("empresa")
+){
+baseKeywords.push("tap","empresa","profesional");
+}
+
+return {
 name: c.nombre || "Curso",
-area: c.area || "",
-keywords: [
-(c.nombre || ""),
-(c.area || ""),
-"curso",
-"cursos",
-"facultad",
-"academy",
-"universidad",
-"idioma",
-"idiomas",
-"clase",
-"clases",
-"formacion",
-"aprendizaje"
-].map(k => normalize(k)),
+keywords: baseKeywords.map(k => normalize(k)),
 url: c.url || "#"
-}));
+};
+
+});
 
 })
 .catch(err => console.error("Error catálogo:", err));
@@ -410,7 +443,7 @@ let score = 0;
 
 words.forEach(w => {
 c.keywords.forEach(k => {
-if(k.includes(w)) score += 2;
+if(k.includes(w)) score += 3;
 });
 });
 
@@ -421,7 +454,7 @@ return {...c, score};
 results = results
 .filter(r => r.score > 0)
 .sort((a,b) => b.score - a.score)
-.slice(0,6);
+.slice(0,8);
 
 results.forEach(r => {
 
@@ -429,16 +462,11 @@ let div = document.createElement("div");
 div.className = "suggestion";
 div.innerText = r.name;
 
-/* CLICK MEJORADO */
 div.onclick = () => {
-
 window.open(r.url, "_blank");
-
-/* 🔥 LIMPIEZA TOTAL */
 input.value = "";
 suggestions.innerHTML = "";
 suggestions.style.display = "none";
-
 };
 
 suggestions.appendChild(div);
@@ -449,7 +477,6 @@ suggestions.style.display = results.length ? "block" : "none";
 
 });
 
-/* 🔥 OCULTAR AL HACER CLICK FUERA */
 document.addEventListener("click",(e)=>{
 if(!e.target.closest(".search")){
 suggestions.style.display="none";
@@ -457,6 +484,5 @@ suggestions.style.display="none";
 });
 
 </script>
-
 </body>
 </html>
