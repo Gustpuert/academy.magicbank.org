@@ -351,52 +351,78 @@ The Education of the Future — Today
 
 <script>
 function normalize(t){
-return t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+return (t || "")
+.toLowerCase()
+.normalize("NFD")
+.replace(/[\u0300-\u036f]/g,"")
+.trim();
 }
 
 let courses = [];
 
-const input = document.getElementById("searchInput");
-const suggestions = document.getElementById("suggestions");
-
 fetch("https://magic-bank-backend-production-713e.up.railway.app/api/catalogo-publico")
 .then(res => res.json())
 .then(data => {
-courses = data;
+
+courses = data.map(c => ({
+name: c.nombre || "Curso",
+keywords: [
+(c.nombre || "").toLowerCase(),
+(c.area || "").toLowerCase()
+],
+url: c.url || "#"
+}));
+
 })
-.catch(err => {
-console.error("Error cargando catálogo:", err);
-});
+.catch(err => console.error("Error catálogo:", err));
+
+const input = document.getElementById("searchInput");
+const suggestions = document.getElementById("suggestions");
 
 input.addEventListener("input", function(){
 
-let v = normalize(this.value);
+let value = normalize(this.value);
 suggestions.innerHTML = "";
 
-if(v.length < 2){
+if(value.length < 2){
 suggestions.style.display = "none";
 return;
 }
 
-let matches = courses.filter(c =>
-normalize(c.nombre).includes(v)
-);
+let results = courses.map(c => {
 
-matches.slice(0,6).forEach(c => {
+let score = 0;
+
+c.keywords.forEach(k => {
+if(normalize(k).includes(value)) score += 2;
+if(value.includes(normalize(k))) score += 1;
+});
+
+return {...c, score};
+
+});
+
+results = results
+.filter(r => r.score > 0)
+.sort((a,b) => b.score - a.score)
+.slice(0,6);
+
+results.forEach(r => {
 
 let div = document.createElement("div");
 div.className = "suggestion";
-div.innerText = c.nombre;
+div.innerText = r.name;
 
+/* CLICK CORRECTO */
 div.onclick = () => {
-window.location.href = c.store_url;
+window.open(r.url, "_blank");
 };
 
 suggestions.appendChild(div);
 
 });
 
-suggestions.style.display = "block";
+suggestions.style.display = results.length ? "block" : "none";
 
 });
 
