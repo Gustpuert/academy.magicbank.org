@@ -350,7 +350,6 @@ The Education of the Future — Today
 </footer>
 
 <script>
-
 function normalize(t){
 return (t || "")
 .toLowerCase()
@@ -359,118 +358,136 @@ return (t || "")
 .trim();
 }
 
-/* =========================
-BASE COMPLETA MAGICBANK
-========================= */
+/* =========================================
+CATÁLOGO REAL (SIN INVENTAR)
+========================================= */
 
-const DATA = [
+const catalog = [
 
-/* IDIOMAS */
-{ name:"Español", url:"https://magicbank2.mitiendanube.com/productos/curso-de-espanol-gj55x/" },
-{ name:"Inglés", url:"https://magicbank2.mitiendanube.com/productos/curso-avanzado-de-ingles-con-magic-tutor-pro/" },
-{ name:"Francés", url:"https://magicbank2.mitiendanube.com/productos/curso-avanzado-de-frances-con-tutor-ia/" },
-{ name:"Portugués", url:"https://magicbank2.mitiendanube.com/productos/curso-de-portugues/" },
-{ name:"Italiano", url:"https://magicbank2.mitiendanube.com/productos/curso-de-italiano/" },
-{ name:"Alemán", url:"https://magicbank2.mitiendanube.com/productos/curso-de-aleman/" },
-{ name:"Chino", url:"https://magicbank2.mitiendanube.com/productos/curso-de-chino/" },
+/* ===== ACADEMY ===== */
+{ name:"Curso de Inglés", url:"https://magicbank2.mitiendanube.com/productos/curso-avanzado-de-ingles-con-magic-tutor-pro/" },
+{ name:"Curso de Francés", url:"https://magicbank2.mitiendanube.com/productos/curso-avanzado-de-frances-con-tutor-ia/" },
+{ name:"Curso de Italiano", url:"https://magicbank2.mitiendanube.com/productos/curso-de-italiano/" },
+{ name:"Curso de Portugués", url:"https://magicbank2.mitiendanube.com/productos/curso-de-portugues/" },
+{ name:"Curso de Alemán", url:"https://magicbank2.mitiendanube.com/productos/curso-de-aleman/" },
+{ name:"Curso de Español", url:"https://magicbank2.mitiendanube.com/productos/curso-de-espanol-gj55x/" },
+{ name:"Curso de Chino", url:"https://magicbank2.mitiendanube.com/productos/curso-de-chino/" },
 
-/* ACADEMY */
-{ name:"Cocina", url:"https://magicbank2.mitiendanube.com/productos/curso-de-cocina-avanzado-con-tutor-con-ia/" },
-{ name:"Nutrición", url:"https://magicbank2.mitiendanube.com/productos/nutricion-inteligente-avanzada-con-tutor-ia/" },
-{ name:"ChatGPT", url:"https://magicbank2.mitiendanube.com/productos/curso-profesional-de-chatgpt/" },
-{ name:"Artes y Oficios", url:"https://magicbank2.mitiendanube.com/productos/artes-y-oficios-magicbank/" },
+{ name:"Curso de Cocina Avanzada", url:"https://magicbank2.mitiendanube.com/productos/curso-de-cocina-avanzado-con-tutor-con-ia/" },
+{ name:"Curso de Nutrición Inteligente", url:"https://magicbank2.mitiendanube.com/productos/nutricion-inteligente-avanzada-con-tutor-ia/" },
+{ name:"Curso de ChatGPT Avanzado", url:"https://magicbank2.mitiendanube.com/productos/curso-profesional-de-chatgpt/" },
+{ name:"Curso de Trading Cíclico", url:"https://magicbank2.mitiendanube.com/productos/trading-ciclico-social/" },
+{ name:"Curso de Banca Digital", url:"https://magicbank2.mitiendanube.com/productos/magicbank-curso-de-banca-digital1/" },
+{ name:"Curso de Inversiones Mágicas", url:"https://magicbank2.mitiendanube.com/productos/magicbank-curso-de-banca-digital1/" },
+{ name:"Curso de Artes y Oficios", url:"https://magicbank2.mitiendanube.com/productos/artes-y-oficios-magicbank/" },
+{ name:"Curso de Diseño de Interiores", url:"https://magicbank2.mitiendanube.com/productos/curso-diseno-de-interiores-profesional-gj1bk/" },
 
-/* UNIVERSITY */
-{ name:"Derecho", url:"https://magicbank2.mitiendanube.com/productos/tap-derecho/" },
-{ name:"Contaduría", url:"https://magicbank2.mitiendanube.com/productos/asistente-profesional-para-contabilidad-b14t5/" },
-{ name:"Marketing", url:"https://magicbank2.mitiendanube.com/productos/tap-empresas/" },
-{ name:"Administración", url:"https://magicbank2.mitiendanube.com/productos/tap-empresas/" },
-{ name:"Software", url:"https://magicbank2.mitiendanube.com/productos/tap-ingenieros/" },
+/* ===== UNIVERSITY ===== */
+{ name:"Facultad de Derecho", url:"https://magicbank2.mitiendanube.com/productos/magicbank-university1/" },
+{ name:"Facultad de Administración y Negocios", url:"https://magicbank2.mitiendanube.com/productos/magicbank-university1/" },
+{ name:"Facultad de Marketing", url:"https://magicbank2.mitiendanube.com/productos/magicbank-university1/" },
+{ name:"Facultad de Contaduría", url:"https://magicbank2.mitiendanube.com/productos/magicbank-university1/" },
+{ name:"Facultad de Desarrollo de Software", url:"https://magicbank2.mitiendanube.com/productos/magicbank-university1/" },
+{ name:"Facultad de Música", url:"https://magicbank2.mitiendanube.com/productos/facultad-de-musica-6k2ph/" },
 
-/* TAP */
-{ name:"TAP Empresas", url:"https://magicbank2.mitiendanube.com/productos/tap-empresas/" },
+/* ===== TAP ===== */
+{ name:"TAP Salud", url:"https://magicbank2.mitiendanube.com/productos/tap-salud/" },
+{ name:"TAP Derecho", url:"https://magicbank2.mitiendanube.com/productos/tap-derecho/" },
+{ name:"TAP Contaduría", url:"https://magicbank2.mitiendanube.com/productos/asistente-profesional-para-contabilidad-b14t5/" },
 { name:"TAP Administración Pública", url:"https://magicbank2.mitiendanube.com/productos/tap-administracion-publica/" },
 { name:"TAP Educación", url:"https://magicbank2.mitiendanube.com/productos/tap-educacion/" },
 { name:"TAP Ingeniería", url:"https://magicbank2.mitiendanube.com/productos/tap-ingenieros/" },
-{ name:"TAP Derecho", url:"https://magicbank2.mitiendanube.com/productos/tap-derecho/" },
-{ name:"TAP Salud", url:"https://magicbank2.mitiendanube.com/productos/tap-salud/" }
+{ name:"TAP Empresas", url:"https://magicbank2.mitiendanube.com/productos/tap-empresas/" }
 
 ];
 
-/* =========================
-ELEMENTOS
-========================= */
+/* =========================================
+MAPA DE INTENCIONES (IA REAL)
+========================================= */
+
+function expandIntent(q){
+
+if(q.includes("idioma") || q.includes("lengua")){
+return ["ingles","frances","italiano","portugues","aleman","espanol","chino"];
+}
+
+if(q.includes("curso") || q.includes("aprender")){
+return ["curso"];
+}
+
+if(q.includes("facultad") || q.includes("carrera") || q.includes("universidad")){
+return ["facultad","derecho","administracion","marketing","contaduria","software"];
+}
+
+if(q.includes("tap") || q.includes("empresa") || q.includes("profesional")){
+return ["tap","salud","derecho","educacion","ingenieria","empresa","contaduria"];
+}
+
+if(q.includes("cocina")) return ["cocina"];
+if(q.includes("nutricion")) return ["nutricion"];
+if(q.includes("chatgpt")) return ["chatgpt"];
+if(q.includes("trading")) return ["trading"];
+if(q.includes("dinero") || q.includes("banco") || q.includes("finanzas")) return ["banca"];
+
+return [q];
+}
+
+/* =========================================
+BUSCADOR
+========================================= */
 
 const input = document.getElementById("searchInput");
 const suggestions = document.getElementById("suggestions");
 
-/* =========================
-BUSCADOR SIMPLE Y ROBUSTO
-========================= */
-
 input.addEventListener("input", function(){
 
-let value = normalize(this.value);
-
-/* limpiar */
+let raw = normalize(this.value);
 suggestions.innerHTML = "";
 
-if(value.length < 2){
+if(raw.length < 2){
 suggestions.style.display = "none";
 return;
 }
 
-/* 🔥 BÚSQUEDA REAL */
-let results = DATA.filter(item =>
-normalize(item.name).includes(value)
-);
+let intents = expandIntent(raw);
 
-/* 🔥 PALABRAS CLAVE GLOBALES */
-if(value.includes("curso") || value.includes("cursos")){
-results = DATA;
+let results = catalog.filter(c => {
+
+let name = normalize(c.name);
+
+return intents.some(i => name.includes(i));
+
+});
+
+/* quitar duplicados */
+let unique = [];
+let seen = new Set();
+
+for(let r of results){
+if(!seen.has(r.name)){
+seen.add(r.name);
+unique.push(r);
+}
 }
 
-if(value.includes("idioma")){
-results = DATA.slice(0,7);
-}
-
-if(value.includes("facultad")){
-results = DATA.slice(11,16);
-}
-
-if(value.includes("tap")){
-results = DATA.slice(16);
-}
-
-/* fallback */
-if(results.length === 0){
-results = DATA;
-}
-
-/* =========================
-RENDER LIMPIO
-========================= */
-
-results.slice(0,8).forEach(item => {
+/* mostrar */
+unique.slice(0,8).forEach(c => {
 
 let div = document.createElement("div");
 div.className = "suggestion";
-div.innerText = item.name;
+div.innerText = c.name;
 
 div.onclick = () => {
-window.open(item.url, "_blank");
-
-/* limpiar */
-input.value = "";
-suggestions.innerHTML = "";
+window.open(c.url, "_blank");
 suggestions.style.display = "none";
+input.value = "";
 };
 
 suggestions.appendChild(div);
 
 });
 
-suggestions.style.display = "block";
+suggestions.style.display = unique.length ? "block" : "none";
 
 });
 
@@ -480,7 +497,6 @@ if(!e.target.closest(".search")){
 suggestions.style.display="none";
 }
 });
-
 </script>
   
 
