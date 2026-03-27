@@ -350,6 +350,7 @@ The Education of the Future — Today
 </footer>
 
 <script>
+
 function normalize(t){
 return (t || "")
 .toLowerCase()
@@ -366,10 +367,22 @@ fetch("https://magic-bank-backend-production-713e.up.railway.app/api/catalogo-pu
 
 courses = data.map(c => ({
 name: c.nombre || "Curso",
+area: c.area || "",
 keywords: [
-(c.nombre || "").toLowerCase(),
-(c.area || "").toLowerCase()
-],
+(c.nombre || ""),
+(c.area || ""),
+"curso",
+"cursos",
+"facultad",
+"academy",
+"universidad",
+"idioma",
+"idiomas",
+"clase",
+"clases",
+"formacion",
+"aprendizaje"
+].map(k => normalize(k)),
 url: c.url || "#"
 }));
 
@@ -389,13 +402,16 @@ suggestions.style.display = "none";
 return;
 }
 
+let words = value.split(" ");
+
 let results = courses.map(c => {
 
 let score = 0;
 
+words.forEach(w => {
 c.keywords.forEach(k => {
-if(normalize(k).includes(value)) score += 2;
-if(value.includes(normalize(k))) score += 1;
+if(k.includes(w)) score += 2;
+});
 });
 
 return {...c, score};
@@ -413,9 +429,16 @@ let div = document.createElement("div");
 div.className = "suggestion";
 div.innerText = r.name;
 
-/* CLICK CORRECTO */
+/* CLICK MEJORADO */
 div.onclick = () => {
+
 window.open(r.url, "_blank");
+
+/* 🔥 LIMPIEZA TOTAL */
+input.value = "";
+suggestions.innerHTML = "";
+suggestions.style.display = "none";
+
 };
 
 suggestions.appendChild(div);
@@ -426,11 +449,13 @@ suggestions.style.display = results.length ? "block" : "none";
 
 });
 
+/* 🔥 OCULTAR AL HACER CLICK FUERA */
 document.addEventListener("click",(e)=>{
 if(!e.target.closest(".search")){
 suggestions.style.display="none";
 }
 });
+
 </script>
 
 </body>
