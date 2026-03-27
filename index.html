@@ -365,96 +365,133 @@ fetch("https://magic-bank-backend-production-713e.up.railway.app/api/catalogo-pu
 .then(res => res.json())
 .then(data => {
 
-courses = data.map(c => {
-
-let baseKeywords = [
-c.nombre,
-c.area,
-"curso","cursos","clase","clases","formacion","aprendizaje"
-];
-
-/* 🔥 CLASIFICACIÓN INTELIGENTE */
-
-if(normalize(c.area).includes("idioma") || normalize(c.nombre).includes("ingles") || normalize(c.nombre).includes("espanol")){
-baseKeywords.push("academy","idiomas");
-}
-
-/* ACADEMY CURSOS */
-if(
-normalize(c.nombre).includes("cocina") ||
-normalize(c.nombre).includes("nutricion") ||
-normalize(c.nombre).includes("chatgpt") ||
-normalize(c.nombre).includes("interiores") ||
-normalize(c.nombre).includes("artes")
-){
-baseKeywords.push("academy","curso","cursos");
-}
-
-/* UNIVERSITY */
-if(
-normalize(c.area).includes("derecho") ||
-normalize(c.area).includes("contaduria") ||
-normalize(c.area).includes("marketing") ||
-normalize(c.area).includes("administracion") ||
-normalize(c.area).includes("software")
-){
-baseKeywords.push("facultad","university","carrera");
-}
-
-/* TAP */
-if(
-normalize(c.area).includes("salud") ||
-normalize(c.area).includes("publica") ||
-normalize(c.area).includes("ingenieria") ||
-normalize(c.area).includes("empresa")
-){
-baseKeywords.push("tap","empresa","profesional");
-}
-
-return {
-name: c.nombre || "Curso",
-keywords: baseKeywords.map(k => normalize(k)),
-url: c.url || "#"
-};
+courses = data.map(c => ({
+name: c.nombre,
+area: c.area,
+url: c.url,
+text: normalize(c.nombre + " " + c.area)
+}));
 
 });
 
-})
-.catch(err => console.error("Error catálogo:", err));
+/* =========================
+INTELIGENCIA DE INTENCIÓN
+========================= */
+
+function detectIntent(message){
+
+let m = normalize(message);
+
+/* IDIOMAS */
+if(m.includes("ingles")) return "english";
+if(m.includes("espanol")) return "spanish";
+if(m.includes("frances")) return "french";
+if(m.includes("idioma")) return "idiomas";
+
+/* ACADEMY */
+if(m.includes("cocina")) return "cocina";
+if(m.includes("nutricion")) return "nutricion";
+if(m.includes("chatgpt")) return "chatgpt";
+if(m.includes("interiores")) return "interiores";
+if(m.includes("artes")) return "artes";
+
+/* UNIVERSITY */
+if(m.includes("derecho")) return "derecho";
+if(m.includes("contaduria")) return "contaduria";
+if(m.includes("marketing")) return "marketing";
+if(m.includes("administracion")) return "admin";
+if(m.includes("software")) return "software";
+
+/* TAP */
+if(m.includes("empresa")) return "empresa";
+if(m.includes("salud")) return "salud";
+if(m.includes("ingenieria")) return "ingenieria";
+if(m.includes("publica")) return "publica";
+
+/* GENÉRICO */
+if(m.includes("curso") || m.includes("aprender")) return "curso";
+if(m.includes("facultad") || m.includes("carrera")) return "university";
+
+return "general";
+}
+
+/* =========================
+RESPUESTA INTELIGENTE
+========================= */
+
+function smartSearch(query){
+
+let intent = detectIntent(query);
+
+/* FILTROS */
+
+if(intent === "idiomas"){
+return courses.filter(c => c.text.includes("ingles") || c.text.includes("espanol"));
+}
+
+if(intent === "cocina"){
+return courses.filter(c => c.text.includes("cocina"));
+}
+
+if(intent === "nutricion"){
+return courses.filter(c => c.text.includes("nutricion"));
+}
+
+if(intent === "chatgpt"){
+return courses.filter(c => c.text.includes("chatgpt"));
+}
+
+if(intent === "derecho"){
+return courses.filter(c => c.text.includes("derecho"));
+}
+
+if(intent === "empresa"){
+return courses.filter(c => c.text.includes("empresa"));
+}
+
+if(intent === "curso"){
+return courses.filter(c =>
+c.text.includes("cocina") ||
+c.text.includes("nutricion") ||
+c.text.includes("chatgpt") ||
+c.text.includes("idioma")
+);
+}
+
+if(intent === "university"){
+return courses.filter(c =>
+c.text.includes("derecho") ||
+c.text.includes("contaduria") ||
+c.text.includes("marketing") ||
+c.text.includes("administracion") ||
+c.text.includes("software")
+);
+}
+
+/* DEFAULT */
+return courses.slice(0,6);
+
+}
+
+/* =========================
+UI
+========================= */
 
 const input = document.getElementById("searchInput");
 const suggestions = document.getElementById("suggestions");
 
 input.addEventListener("input", function(){
 
-let value = normalize(this.value);
-suggestions.innerHTML = "";
+let value = this.value;
 
 if(value.length < 2){
 suggestions.style.display = "none";
 return;
 }
 
-let words = value.split(" ");
+let results = smartSearch(value).slice(0,6);
 
-let results = courses.map(c => {
-
-let score = 0;
-
-words.forEach(w => {
-c.keywords.forEach(k => {
-if(k.includes(w)) score += 3;
-});
-});
-
-return {...c, score};
-
-});
-
-results = results
-.filter(r => r.score > 0)
-.sort((a,b) => b.score - a.score)
-.slice(0,8);
+suggestions.innerHTML = "";
 
 results.forEach(r => {
 
@@ -465,7 +502,6 @@ div.innerText = r.name;
 div.onclick = () => {
 window.open(r.url, "_blank");
 input.value = "";
-suggestions.innerHTML = "";
 suggestions.style.display = "none";
 };
 
@@ -473,7 +509,7 @@ suggestions.appendChild(div);
 
 });
 
-suggestions.style.display = results.length ? "block" : "none";
+suggestions.style.display = "block";
 
 });
 
